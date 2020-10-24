@@ -21,7 +21,10 @@ class LinkedList {
   // is private.
 
   // Here is a struct to get you started. You'll probably need more than this.
-  struct Node { };
+  struct Node { 
+    ElementType node_value_;
+    Node *next_;
+  };
 
 
 
@@ -110,6 +113,10 @@ class LinkedList {
   const_iterator end() const;
 
   // --- End of Container Methods ---
+ private:
+  Node* head_;
+  Node* CreateNode(const ElementType &elementType);
+
 };
 
 template<typename ElementType>

@@ -11,7 +11,7 @@
 namespace cs126linkedlist {
 
 template <typename ElementType>
-LinkedList<ElementType>::LinkedList() {}
+LinkedList<ElementType>::LinkedList() : head_(NULL) {}
 
 template <typename ElementType>
 LinkedList<ElementType>::LinkedList(const std::vector<ElementType>& values) {}
@@ -41,10 +41,35 @@ LinkedList<ElementType>& LinkedList<ElementType>::operator=(
     LinkedList<ElementType>&& source) noexcept {}
 
 template <typename ElementType>
-void LinkedList<ElementType>::push_front(const ElementType& value) {}
+void LinkedList<ElementType>::push_front(const ElementType& value) {
+  Node *new_node = CreateNode(value);
+
+  if (head_ == NULL) {
+    head_ = new_node;
+    return;
+  }
+  
+  Node *saved_node = head_;
+  new_node->next_ = saved_node;
+  head_ = new_node;
+}
 
 template <typename ElementType>
-void LinkedList<ElementType>::push_back(const ElementType& value) {}
+void LinkedList<ElementType>::push_back(const ElementType& value) {
+  Node *new_node = CreateNode(value);
+  
+  if (head_ == NULL) {
+    head_ = new_node;
+    return;
+  }
+  
+  Node *node_ptr = head_;
+  while(node_ptr->next_ != NULL) { 
+    node_ptr = node_ptr->next_;
+  }
+  
+  node_ptr->next_ = new_node;
+}
 
 template <typename ElementType>
 ElementType LinkedList<ElementType>::front() const {}
@@ -87,20 +112,31 @@ bool LinkedList<ElementType>::operator!=(
 
 template <typename ElementType>
 typename LinkedList<ElementType>::iterator& LinkedList<ElementType>::iterator::
-operator++() {}
+operator++() {
+  if(current_ != NULL) {
+    current_ = current_->next_;  
+  }
+  
+  return *this;
+}
 
 template <typename ElementType>
 ElementType& LinkedList<ElementType>::iterator::operator*() const {}
 
 template <typename ElementType>
 bool LinkedList<ElementType>::iterator::operator!=(
-    const LinkedList<ElementType>::iterator& other) const {}
+    const LinkedList<ElementType>::iterator& other) const {
+  return current_
+}
 
 template <typename ElementType>
-typename LinkedList<ElementType>::iterator LinkedList<ElementType>::begin() {}
+typename LinkedList<ElementType>::iterator LinkedList<ElementType>::begin() {
+  return LinkedList<ElementType>::iterator(head_);
+}
 
 template <typename ElementType>
-typename LinkedList<ElementType>::iterator LinkedList<ElementType>::end() {}
+typename LinkedList<ElementType>::iterator LinkedList<ElementType>::end() {
+}
 
 template <typename ElementType>
 typename LinkedList<ElementType>::const_iterator&
@@ -120,5 +156,14 @@ LinkedList<ElementType>::begin() const {}
 template <typename ElementType>
 typename LinkedList<ElementType>::const_iterator LinkedList<ElementType>::end()
     const {}
+template <typename ElementType>
+
+typename LinkedList<ElementType>::Node* LinkedList<ElementType>::CreateNode(const ElementType& elementType) {
+  Node *node = new Node();
+  node->node_value_ = elementType;
+  node->next_ = nullptr;
+  
+  return node;
+}
 
 }  // namespace cs126linkedlist
