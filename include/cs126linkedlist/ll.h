@@ -115,6 +115,15 @@ class LinkedList {
   // --- End of Container Methods ---
  private:
   Node* head_;
+  Node* tail_ = head_;
+  size_t size_ = 0;
+  
+  /**
+   * Creates a new Node with the specified element
+   * 
+   * @param elementType to instantiate new node with 
+   * @return Node pointer to the new node
+   */
   Node* CreateNode(const ElementType &elementType);
 
 };

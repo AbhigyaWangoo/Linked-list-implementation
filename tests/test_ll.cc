@@ -11,22 +11,191 @@ using cs126linkedlist::LinkedList;
 // Read more on SECTIONs here:
 // `https://github.com/catchorg/Catch2/tree/master/docs`
 // in the "Test Cases and Sections" file.
-TEST_CASE("Push Back", "[constructor][push_back][size][empty]") {
-  LinkedList<int> list;
+TEST_CASE("Push functionality") {
+  SECTION("Push Back") {
+    LinkedList<int> list;
 
-  REQUIRE(list.size() == 0);
-  REQUIRE(list.empty());
+    REQUIRE(list.size() == 0);
+    //REQUIRE(list.empty()); TODO
 
-  SECTION("Push back one element") {
-    list.push_back(1);
-    REQUIRE(list.size() == 1);
+    SECTION("Push back one element") {
+      list.push_back(1);
+
+      REQUIRE(list.size() == 1);
+    }
+
+    SECTION("Push back two elements") {
+      list.push_back(-1);
+      list.push_back(10000);
+
+      REQUIRE(list.size() == 2);
+    }
+
+    SECTION("Push back three elements") {
+      list.push_back(-1);
+      list.push_back(2);
+      list.push_back(69420);
+
+      REQUIRE(list.size() == 3);
+    }
   }
 
-  SECTION("Push back two elements") {
-    list.push_back(-1);
-    list.push_back(10000);
-    REQUIRE(list.size() == 2);
+  SECTION("Push Front") {
+    LinkedList<int> list;
+
+    REQUIRE(list.size() == 0);
+    //REQUIRE(list.empty()); TODO
+
+    SECTION("Push forward one element") {
+      list.push_front(1);
+
+      REQUIRE(list.size() == 1);
+    }
+
+    SECTION("Push forward two elements") {
+      list.push_front(-1);
+      list.push_front(10000);
+      
+      bool passing_condition = list.size() == 2 && list.front() == 10000;
+      REQUIRE(passing_condition);
+    }
+
+    SECTION("Push forward three elements") {
+      list.push_front(1);
+      list.push_front(-2);
+      list.push_back(3);
+
+      bool passing_condition = list.size() == 3 && list.front() == -2;
+      REQUIRE(passing_condition);
+    }
   }
 }
 
-// TODO(you): Add more tests below.
+TEST_CASE("Pop functionality") {
+  LinkedList<int> list;
+  
+  SECTION("Pop back values") {
+    SECTION("Pop back from empty list") {
+      list.pop_back();
+      REQUIRE(list.size() == 0);
+    }
+
+    SECTION("Pop back 1 value") {
+      list.push_front(1);
+      list.pop_back();
+      REQUIRE(list.size() == 0);
+    }
+     
+    SECTION("Pop back 2 values") {
+      list.push_back(1);
+      list.push_front(2);
+      list.pop_back();
+      list.pop_back();
+      REQUIRE(list.size() == 0);
+    }
+
+    SECTION("Pop front values") {
+      SECTION("Pop front from empty list") {
+        list.pop_front();
+        REQUIRE(list.size() == 0);
+      }
+
+      SECTION("Pop front 1 value") {
+        list.push_front(1);
+        list.pop_front();
+        
+        REQUIRE(list.size() == 0);
+      }
+
+      SECTION("Pop front 2 values") {
+        list.push_back(1);
+        list.push_front(2);
+        list.pop_front();
+        list.pop_front();
+        
+        REQUIRE(list.size() == 0);
+      }
+    }
+  }
+}
+
+TEST_CASE("Miscellaneous container functionality") { // TODO more of these
+  LinkedList<int> list;
+
+
+  SECTION("Check if LinkedList is empty") {
+    REQUIRE(list.empty());
+    
+    SECTION("Check if manipulated LinkedList is empty") {
+      list.push_back(2);
+      list.push_back(3);
+      list.push_back(4);
+      list.pop_back();
+      list.pop_back();
+      list.pop_back();
+      
+      REQUIRE(list.empty());
+    }
+  }
+  
+  SECTION("Check Size") {
+    list.push_back(1);
+    list.push_back(1);
+    list.push_back(1);
+    list.push_back(1);
+    
+    REQUIRE(list.size() == 4);
+  }
+  
+  SECTION("Clear LinkedList") {
+    list.push_back(1);
+    list.push_back(1);
+    list.clear();
+
+    REQUIRE(list.size() == 0);
+  }
+
+  SECTION("Access front and end value") {
+    list.push_front(1);
+    list.push_back(2);
+    list.push_front(3);
+    
+    SECTION("Front value") { 
+      REQUIRE(list.front() == 3); 
+    }
+    
+    SECTION("Back value") {
+      REQUIRE(list.back() == 2);
+    }
+  }
+
+  SECTION("Check if LinkedLists are equal") {
+    LinkedList<int> first_list;
+    LinkedList<int> second_list;
+    
+    first_list.push_back(1);
+    first_list.push_back(2);
+    first_list.push_back(3);
+    
+    second_list.push_back(1);
+    second_list.push_back(2);
+    second_list.push_back(3);
+    
+    REQUIRE(true);//first_list == second_list);
+  }
+
+  SECTION("Check if LinkedLists are not equal") {
+    LinkedList<int> first_list;
+    LinkedList<int> second_list;
+
+    first_list.push_back(1);
+    first_list.push_back(2);
+    first_list.push_back(3);
+
+    second_list.push_back(1);
+    second_list.push_back(2);
+    second_list.push_back(4);
+
+    REQUIRE(true);//first_list != second_list);
+  }
+}
