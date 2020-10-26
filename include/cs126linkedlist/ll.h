@@ -115,7 +115,7 @@ class LinkedList {
   // --- End of Container Methods ---
  private:
   Node* head_;
-  Node* tail_ = head_;
+  Node* tail_ = nullptr;
   size_t size_ = 0;
   
   /**
@@ -125,7 +125,6 @@ class LinkedList {
    * @return Node pointer to the new node
    */
   Node* CreateNode(const ElementType &elementType);
-
 };
 
 template<typename ElementType>

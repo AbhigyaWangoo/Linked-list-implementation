@@ -16,6 +16,11 @@ LinkedList<ElementType>::LinkedList() : head_(NULL) {}
 template <typename ElementType>
 LinkedList<ElementType>::LinkedList(const std::vector<ElementType>& values) {
   size_ = values.size();
+  size_t current_index = 0;
+  
+  for(ElementType element:values) {
+    push_back(element);
+  }
 }
 
 // Copy constructor
@@ -163,23 +168,64 @@ std::ostream& operator<<(std::ostream& os,
 
 template <typename ElementType>
 void LinkedList<ElementType>::RemoveNth(size_t n) {
-  size_--;
+  if(n == size_) {
+    pop_back();
+  } else if (n == 0) {
+    pop_front();
+  } else if (n > size() || n < 0) { 
+    return;
+  } else {
+    size_--;
+    
+    Node *current_node = head_;
+    Node *node_after;
+    Node *node_after_next;
+    
+    size_t i = 0;
+    while(i < size()) {
+      if(i == n - 1) {
+        node_after = current_node->next_;
+        node_after_next = node_after->next_;
+
+        current_node->next_ = node_after_next;
+        delete node_after;
+        node_after = nullptr;
+      }
+      
+      i++;
+      current_node = current_node->next_;
+    }
+    // TODO implement 
+  }
 }
 
 template <typename ElementType>
 void LinkedList<ElementType>::RemoveOdd() {
-  size_ -= size_ / 2;
+  for (size_t i = 1 ; i < size(); i++) {
+     RemoveNth(i);
+  }
 }
 
 template <typename ElementType>
 bool LinkedList<ElementType>::operator==(
     const LinkedList<ElementType>& rhs) const {
-  if (this->head_ != rhs.head_ || this->tail_ != rhs.tail_ || this->size_ != rhs.size_ ){
-    return false;
-  } else {
-    // loop thru?
+  
+  if (size() == 0 && rhs.size() == 0) {
+    return true;
   }
   
+  Node *this_current_node = head_;
+  Node *rhs_current_node = rhs.head_;
+  
+  while (this_current_node->next_ != nullptr || rhs_current_node->next_ != nullptr) {
+    if (this_current_node->node_value_ != rhs_current_node->node_value_) {
+      return false;
+    }
+    this_current_node = this_current_node->next_;
+    rhs_current_node = rhs_current_node->next_;
+  }
+  
+  return true;
 }
 
 template <typename ElementType>
@@ -197,7 +243,9 @@ operator++() {
 }
 
 template <typename ElementType>
-ElementType& LinkedList<ElementType>::iterator::operator*() const {}
+ElementType& LinkedList<ElementType>::iterator::operator*() const {
+  
+}
 
 template <typename ElementType>
 bool LinkedList<ElementType>::iterator::operator!=(
@@ -216,7 +264,13 @@ typename LinkedList<ElementType>::iterator LinkedList<ElementType>::end() {
 
 template <typename ElementType>
 typename LinkedList<ElementType>::const_iterator&
-LinkedList<ElementType>::const_iterator::operator++() {}
+LinkedList<ElementType>::const_iterator::operator++() {
+  if(current_ != NULL) {
+    current_ = current_->next_;
+  }
+
+  return *this;
+}
 
 template <typename ElementType>
 const ElementType& LinkedList<ElementType>::const_iterator::operator*() const {}

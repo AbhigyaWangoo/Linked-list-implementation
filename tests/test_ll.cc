@@ -181,7 +181,7 @@ TEST_CASE("Miscellaneous container functionality") { // TODO more of these
     second_list.push_back(2);
     second_list.push_back(3);
     
-    REQUIRE(true);//first_list == second_list);
+    REQUIRE(true);//first_list == second_list); TODO
   }
 
   SECTION("Check if LinkedLists are not equal") {
@@ -196,6 +196,65 @@ TEST_CASE("Miscellaneous container functionality") { // TODO more of these
     second_list.push_back(2);
     second_list.push_back(4);
 
-    REQUIRE(true);//first_list != second_list);
+    REQUIRE(true);//first_list != second_list); TODO 
+  }
+}
+
+TEST_CASE("CS126 Custom functions testing") {
+  SECTION("Vector to LinkedList constructor") {
+    std::vector<int> values;
+    LinkedList<int> list = LinkedList(values);
+    
+    for(size_t i = 0; i < values.size();i++) {
+      if(values[i] != list.front()) {
+        REQUIRE(false);
+      }
+      list.pop_front();
+    }
+    
+    REQUIRE(true);
+  }
+  
+  SECTION("Remove nth node") {
+    LinkedList<int> list;
+    
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+    
+    list.RemoveNth(1);
+    
+    bool condition = list.front() == 1 && list.back() == 3 && list.size() == 2;
+    REQUIRE(condition);
+  }
+
+  SECTION("Remove nonexistant node") {
+    LinkedList<int> list;
+
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+
+    list.RemoveNth(13);
+    list.RemoveNth(-1);
+    
+    REQUIRE(list.size() == 3);
+  }
+
+  SECTION("Remove odd nodes") {
+    LinkedList<int> list;
+
+    list.push_back(0);
+    list.push_back(1);
+    list.push_back(2);
+    list.push_back(3);
+    list.push_back(4);
+    list.push_back(5);
+    list.push_back(6);
+    
+    list.RemoveOdd();
+    
+    bool condition = list.front() == 0 && list.back() == 6 && list.size() == 4;
+    REQUIRE(condition);
   }
 }
