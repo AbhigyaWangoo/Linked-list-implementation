@@ -197,13 +197,7 @@ void LinkedList<ElementType>::clear() {
 template <typename ElementType>
 std::ostream& operator<<(std::ostream& os,
                          const LinkedList<ElementType>& list) {
-  LinkedList<ElementType>::const_iterator it = list.begin();
-  
-  while (it != nullptr) {
-    ++it;
-    os << *it;
-  }
-  
+  Print(os, list);
   return os;
 }
 
@@ -370,6 +364,15 @@ void LinkedList<ElementType>::CopySource(
   for (const_iterator iterator = source.begin(); iterator != source.end();
        ++iterator) {
     push_back(*iterator);
+  }
+}
+template <typename ElementType>
+void LinkedList<ElementType>::Print(std::ostream& os, const LinkedList<ElementType>& list) {
+  LinkedList<ElementType>::iterator it = list.begin();
+
+  while (it != nullptr) {
+    ++it;
+    os << *it;
   }
 }
 
