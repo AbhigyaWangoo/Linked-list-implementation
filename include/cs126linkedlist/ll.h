@@ -114,7 +114,7 @@ class LinkedList {
 
   // --- End of Container Methods ---
  private:
-  Node* head_;
+  Node* head_ = nullptr;
   Node* tail_ = nullptr;
   size_t size_ = 0;
   
@@ -125,6 +125,13 @@ class LinkedList {
    * @return Node pointer to the new node
    */
   Node* CreateNode(const ElementType &elementType);
+  
+  /**
+   * Copies linkedlist from source into this instance
+   * 
+   * @param source to copy from 
+   */
+  void CopySource(const LinkedList<ElementType> &source);
 };
 
 template<typename ElementType>
