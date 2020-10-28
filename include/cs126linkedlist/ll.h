@@ -132,6 +132,8 @@ class LinkedList {
    * @param source to copy from 
    */
   void CopySource(const LinkedList<ElementType> &source);
+  
+  void Print(std::ostream& os, const LinkedList<ElementType>& list);
 };
 
 template<typename ElementType>
