@@ -197,9 +197,14 @@ void LinkedList<ElementType>::clear() {
 template <typename ElementType>
 std::ostream& operator<<(std::ostream& os,
                          const LinkedList<ElementType>& list) {
-//  LinkedList<char>::iterator it = list.begin();
+  LinkedList<ElementType>::const_iterator it = list.begin();
   
+  while (it != nullptr) {
+    ++it;
+    os << *it;
+  }
   
+  return os;
 }
 
 template <typename ElementType>
